@@ -1,16 +1,14 @@
-#create the login module here
-
-
-#login and authenticate
+from sqlalchemy.orm import sessionmaker
+from database.db_setup import create_engine, User
 
 def login(username, password):
-    # Logic to authenticate the user
-    
-    # in the database encryption.db table users, check if username and password match
-    
-    # if match, return True 
-    
-    # else return False
+    engine = create_engine("sqlite:///encryptor.db")
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
-    
-    pass
+    user = session.query(User).filter_by(username=username, password=password).first()
+    session.close()
+
+    if user:
+        return True
+    return False
